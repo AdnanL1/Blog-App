@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/public/css/style.css" />
+    <title>Blog App</title>
+  </head>
+  <body>
+    <!-- nav -->
+    <%-include('partials/navbar.ejs') %>
+    <!-- header -->
+    <header>
+      <div class="header-content">
+        <h1>Welcome to Our Blog</h1>
+        <p>
+          Explore the world of insightful and captivating blog posts written by
+          our talented authors.
+        </p>
+        <a href="/api/v1/posts/get-post-form">
+          <span>Create New Post</span>
+        </a>
+      </div>
+    </header>
+    <!-- Latest post title -->
+
+    <div class="latest-post-title">
+      <!-- Icon -->
+      <div class="icon">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <h1>Latest Posts</h1>
+      <p>
+        Discover our most recent blog posts below. Stay updated with the latest
+        trends and ideas.
+      </p>
+    </div>
+
+    <!-- content -->
+    <section class="container-flex">
+      <%if(posts?.length<=0){%>
+      <h2>No Posts Found</h2>
+      <%}else{%> <%posts?.forEach((post)=>{%>
+      <article class="post-content">
+        <img src="<%=post?.image%>" alt="<%=post?.title%>" class="post-image" />
+        <p class="post-info">
+          <span class="post-author">
+            <i class="fas fa-user"></i>
+            <a href="#"><%=post?.user?.fullname%></a>
+          </span>
+          <span class="post-date">
+            <i class="far fa-calendar-alt"></i>
+            <time datetime="<%=post?.createdAt.toISOString()%>">
+              <%=post?.createdAt.toLocaleDateString()%>
+            </time>
+          </span>
+        </p>
+        <h1 class="post-title"><%=post?.title%></h1>
+        <p class="post-body"><%=post?.description%></p>
+        <!-- category -->
+        <div class="post-category">
+          <span>Category: <%=post?.category%></span>
+        </div>
+        <a href="/api/v1/posts/<%=post?._id%>" class="post-read-more"
+          >Continue Reading...</a
+        >
+      </article>
+      <%})%> <%}%>
+    </section>
+    <!-- footer -->
+    <%-include('partials/footer.ejs') %>
+  </body>
+</html>
